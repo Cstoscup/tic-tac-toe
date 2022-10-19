@@ -24,10 +24,15 @@ h1 {
   background-color: #6d597a;
 }
 
-.cell {
+.cell-image {
   border: 1px solid #6d597a;
+  color: #6d597a;
   border-radius: 4px;
   background-color: white;
+  font-size: 100px;
+  text-align: center;
+  line-height: 161px;
+  vertical-align: middle;
 }
 
 .cell:hover {
