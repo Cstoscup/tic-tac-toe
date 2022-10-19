@@ -1,4 +1,6 @@
 const gameboard = (function() {
+  var currentMarker = 'X';
+  var title = document.getElementById('title');
   const gameArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
   const writeToDOM = function() {
     var board = document.getElementById('gameboard');
@@ -32,7 +34,6 @@ const gameboard = (function() {
     });
 
     if (tie === true) {
-      var title = document.getElementById('title');
       title.innerHTML = "It's a tie!";
     }
 
@@ -40,7 +41,7 @@ const gameboard = (function() {
 
     var cells = document.getElementsByClassName('cell');
     for (var i = 0; i < cells.length; i++) {
-      cells[i].addEventListener('click', function() { Player.pickCell(event) });
+      cells[i].addEventListener('click', function() { currentPlayer.pickCell(event) });
     }
   }
 
@@ -71,36 +72,49 @@ const gameboard = (function() {
 
 const Player = function(number) {
   var number = number;
-  var currentMarker = 'X';
+  var name;
+  var choice;
+  if (number === 1) {
+    choice = 'X';
+  } else {
+    choice = 'O';
+  }
+
+  const getName = function() {
+    var name = document.getElementById('player' + number).value;
+    return name;
+  }
 
   const displayName = function() {
-    var name = document.getElementById('player' + number).value;
-    document.getElementById('player' + number + '-input').innerHTML = 'Player ' + number + ": " + name;
+    this.name = getName();
+    document.getElementById('player' + number + '-input').innerHTML = this.name + ' is ' + choice;
   }
 
   const pickCell = function(event) {
-    gameboard.gameArray[Number(event.target.id)] = currentMarker;
+    gameboard.gameArray[Number(event.target.id)] = this.choice;
     gameboard.writeToDOM();
-    if (currentMarker === 'O') {
-      currentMarker = 'X'
+    if (currentPlayer === player1) {
+      title.innerHTML = player2.name + "'s turn!";
+      currentPlayer = player2;
     } else {
-      currentMarker = 'O';
+      title.innerHTML = player1.name + "'s turn!";
+      currentPlayer = player1;
     }
   }
 
-  return {displayName, pickCell};
+  return {name, choice, displayName, pickCell};
 };
 
 var submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function(event) {
   event.preventDefault();
 
-  const player1 = Player(1);
   player1.displayName();
-
-  const player2 = Player(2);
   player2.displayName();
-
+  console.log(player1);
   gameboard.writeToDOM()
 });
 
+const player1 = Player(1);
+const player2 = Player(2);
+var currentPlayer = player1;
