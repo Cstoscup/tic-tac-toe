@@ -2,6 +2,14 @@ const gameboard = (function() {
   const gameArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
   const writeToDOM = function() {
     var board = document.getElementById('gameboard');
+
+    if (board === null) {
+      board = document.createElement('div');
+      board.classList.add('gameboard');
+      board.setAttribute('id', 'gameboard');
+      document.body.append(board);
+    }
+
     board.innerHTML = '';
     var tie = true;
 
@@ -61,9 +69,14 @@ const gameboard = (function() {
   return {gameArray, writeToDOM, determineWinner};
 })();
 
-const Player = (function() {
-
+const Player = function(number) {
+  var number = number;
   var currentMarker = 'X';
+
+  const displayName = function() {
+    var name = document.getElementById('player' + number).value;
+    document.getElementById('player' + number + '-input').innerHTML = 'Player ' + number + ": " + name;
+  }
 
   const pickCell = function(event) {
     gameboard.gameArray[Number(event.target.id)] = currentMarker;
@@ -75,8 +88,19 @@ const Player = (function() {
     }
   }
 
-  return {pickCell};
-})();
+  return {displayName, pickCell};
+};
 
-gameboard.writeToDOM();
+var submitButton = document.getElementById('submit');
+submitButton.addEventListener('click', function(event) {
+  event.preventDefault();
+
+  const player1 = Player(1);
+  player1.displayName();
+
+  const player2 = Player(2);
+  player2.displayName();
+
+  gameboard.writeToDOM()
+});
 

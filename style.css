@@ -38,3 +38,7 @@ h1 {
 .cell:hover {
   background-color: rgb(209, 209, 209);
 }
+
+.hidden {
+  display: none;
+}
