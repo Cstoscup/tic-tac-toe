@@ -1,0 +1,35 @@
+body {
+  font-family: 'Fuzzy Bubbles', cursive;
+  background-color: #eaac8b;
+}
+
+h1 {
+  text-align: center;
+  color: #6d597a;
+  font-size: 72px;
+  margin: 20px 0;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  border: 1px solid #6d597a;
+  border-radius: 4px;
+  gap: 5px;
+  padding: 10px;
+  background-color: #6d597a;
+}
+
+.cell {
+  border: 1px solid #6d597a;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.cell:hover {
+  background-color: rgb(209, 209, 209);
+}
