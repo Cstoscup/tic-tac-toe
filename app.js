@@ -3,6 +3,7 @@ const gameboard = (function() {
   var title = document.getElementById('title');
   const gameArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
   const writeToDOM = function() {
+    console.log(currentPlayer);
     var board = document.getElementById('gameboard');
 
     if (board === null) {
@@ -37,8 +38,6 @@ const gameboard = (function() {
       title.innerHTML = "It's a tie!";
     }
 
-    gameboard.determineWinner();
-
     var cells = document.getElementsByClassName('cell');
     for (var i = 0; i < cells.length; i++) {
       cells[i].addEventListener('click', function() { currentPlayer.pickCell(event) });
@@ -47,24 +46,30 @@ const gameboard = (function() {
 
   const determineWinner = function() {
     var title = document.getElementById('title');
+    var winner;
     if (gameArray[0] !== '-' && gameArray[0] === gameArray[1] && gameArray[0] === gameArray[2] ||
         gameArray[0] !== '-' && gameArray[0] === gameArray[3] && gameArray[0] === gameArray[6] ||
         gameArray[0] !== '-' && gameArray[0] === gameArray[4] && gameArray[0] === gameArray[8]) {
-      title.innerHTML = gameArray[0] + ' wins!';
+      winner = gameArray[0];
+      // title.innerHTML = gameArray[0] + ' wins!';
     }
     if (gameArray[1] !== '-' && gameArray[1] === gameArray[4] && gameArray[1] === gameArray[7]) {
-      title.innerHTML = gameArray[1] + ' wins!';
+      winner = gameArray[1];
+      // title.innerHTML = gameArray[1] + ' wins!';
     }
     if (gameArray[2] !== '-' && gameArray[2] === gameArray[5] && gameArray[2] === gameArray[8] ||
         gameArray[2] !== '-' && gameArray[2] === gameArray[4] && gameArray[2] === gameArray[6]) {
-      title.innerHTML = gameArray[2] + ' wins!';
+      winner = gameArray[2];
+      // title.innerHTML = gameArray[2] + ' wins!';
     }
     if (gameArray[3] !== '-' && gameArray[3] === gameArray[4] && gameArray[3] === gameArray[5]) {
-      title.innerHTML = gameArray[3] + ' wins!';
+      winner = gameArray[3];
+      // title.innerHTML = gameArray[3] + ' wins!';
     }
     if (gameArray[6] !== '-' && gameArray[6] === gameArray[7] && gameArray[6] === gameArray[8]) {
-      title.innerHTML = gameArray[6] + ' wins!';
+      winner = gameArray[6];
     }
+    return winner;
   }
 
   return {gameArray, writeToDOM, determineWinner};
@@ -93,13 +98,20 @@ const Player = function(number) {
   const pickCell = function(event) {
     gameboard.gameArray[Number(event.target.id)] = this.choice;
     gameboard.writeToDOM();
-    if (currentPlayer === player1) {
-      title.innerHTML = player2.name + "'s turn!";
-      currentPlayer = player2;
+    var gameIsOver = gameboard.determineWinner();
+    console.log(gameIsOver);
+    if (gameIsOver === undefined) {
+      if (currentPlayer === player1) {
+        title.innerHTML = player2.name + "'s turn!";
+        currentPlayer = player2;
+      } else {
+        title.innerHTML = player1.name + "'s turn!";
+        currentPlayer = player1;
+      }
     } else {
-      title.innerHTML = player1.name + "'s turn!";
-      currentPlayer = player1;
+      title.innerHTML = currentPlayer.name + ' wins!';
     }
+
   }
 
   return {name, choice, displayName, pickCell};
@@ -111,7 +123,6 @@ submitButton.addEventListener('click', function(event) {
 
   player1.displayName();
   player2.displayName();
-  console.log(player1);
   gameboard.writeToDOM()
 });
 
