@@ -51,20 +51,16 @@ const gameboard = (function() {
         gameArray[0] !== '-' && gameArray[0] === gameArray[3] && gameArray[0] === gameArray[6] ||
         gameArray[0] !== '-' && gameArray[0] === gameArray[4] && gameArray[0] === gameArray[8]) {
       winner = gameArray[0];
-      // title.innerHTML = gameArray[0] + ' wins!';
     }
     if (gameArray[1] !== '-' && gameArray[1] === gameArray[4] && gameArray[1] === gameArray[7]) {
       winner = gameArray[1];
-      // title.innerHTML = gameArray[1] + ' wins!';
     }
     if (gameArray[2] !== '-' && gameArray[2] === gameArray[5] && gameArray[2] === gameArray[8] ||
         gameArray[2] !== '-' && gameArray[2] === gameArray[4] && gameArray[2] === gameArray[6]) {
       winner = gameArray[2];
-      // title.innerHTML = gameArray[2] + ' wins!';
     }
     if (gameArray[3] !== '-' && gameArray[3] === gameArray[4] && gameArray[3] === gameArray[5]) {
       winner = gameArray[3];
-      // title.innerHTML = gameArray[3] + ' wins!';
     }
     if (gameArray[6] !== '-' && gameArray[6] === gameArray[7] && gameArray[6] === gameArray[8]) {
       winner = gameArray[6];
@@ -87,6 +83,9 @@ const Player = function(number) {
 
   const getName = function() {
     var name = document.getElementById('player' + number).value;
+    if (name === '') {
+      name = 'Player ' + number;
+    }
     return name;
   }
 
