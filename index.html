@@ -15,11 +15,26 @@
 
   <form id="player-input" class="player-input" action="" method="">
     <div id="player1-input">
-      <label for="player1">Player 1:</label>
+      <label for="player1">Enter your name: </label>
       <input type="text" name="player1" id="player1" />
     </div>
 
-    <div id="player2-input">
+    <div id="player2-section">
+      <h3>Who do you want to play?</h3>
+      <div class="player-computer-buttons">
+        <div>
+          <label for="human">Another Player</label>
+          <input type="radio" id="human" name="second-player" value="human">
+        </div>
+        <div>
+          <label for="computer">Computer</label>
+          <input type="radio" id="computer" name="second-player" value="computer">
+        </div>
+      </div>
+    </div>
+
+
+    <div id="player2-input" class="hidden">
       <label for="player2">Player 2:</label>
       <input type="text" name="player2" id="player2" />
     </div>

@@ -46,6 +46,17 @@ const gameboard = (function() {
   const determineWinner = function() {
     var title = document.getElementById('title');
     var winner;
+
+    var emptyCells = gameArray.filter(function(cell) {
+      return cell === '-';
+    });
+
+    console.log(emptyCells);
+
+    if (emptyCells.length === 0) {
+      return true;
+    }
+
     if (gameArray[0] !== '-' && gameArray[0] === gameArray[1] && gameArray[0] === gameArray[2] ||
         gameArray[0] !== '-' && gameArray[0] === gameArray[3] && gameArray[0] === gameArray[6] ||
         gameArray[0] !== '-' && gameArray[0] === gameArray[4] && gameArray[0] === gameArray[8]) {
@@ -67,7 +78,22 @@ const gameboard = (function() {
     return winner;
   }
 
-  return {gameArray, writeToDOM, determineWinner};
+  const endRound = function(tie) {
+    if (tie === true) {
+      console.log('tie')
+      title.innerHTML = "It's a tie!";
+    } else {
+      title.innerHTML = currentPlayer.name + ' wins!';
+    }
+
+    var playAgainButton = document.createElement('button');
+    playAgainButton.classList.add('play-again');
+    playAgainButton.innerHTML = 'Play Again!';
+    document.body.append(playAgainButton);
+    playAgainButton.addEventListener('click', function() { location.reload() });
+  }
+
+  return {gameArray, writeToDOM, determineWinner, endRound};
 })();
 
 const Player = function(number) {
@@ -81,9 +107,13 @@ const Player = function(number) {
   }
 
   const getName = function() {
-    var name = document.getElementById('player' + number).value;
-    if (name === '') {
-      name = 'Player ' + number;
+    if (document.getElementById('computer').checked === true && number === 2) {
+      name = 'Computer';
+    } else {
+      name = document.getElementById('player' + number).value;
+      if (name === '') {
+        name = 'Player ' + number;
+      }
     }
     return name;
   }
@@ -96,26 +126,125 @@ const Player = function(number) {
     title.innerHTML = player1.name + "'s turn!";
   }
 
+  const computerPickCell = function() {
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[1] === 'X' && gameboard.gameArray[2] === '-') {
+      return 2;
+    }
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[2] === 'X' && gameboard.gameArray[1] === '-') {
+      return 1;
+    }
+    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[2] === 'X' && gameboard.gameArray[0] === '-') {
+      return 0;
+    }
+
+    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[5] === '-') {
+      return 5;
+    }
+    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[3] === '-') {
+      return 3;
+    }
+    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[4] === '-') {
+      return 4;
+    }
+
+    if (gameboard.gameArray[6] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[8] === '-') {
+      return 8;
+    }
+    if (gameboard.gameArray[6] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[7] === '-') {
+      return 7;
+    }
+    if (gameboard.gameArray[7] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[6] === '-') {
+      return 6;
+    }
+
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[3] === 'X' && gameboard.gameArray[6] === '-') {
+      return 6;
+    }
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[3] === '-') {
+      return 3;
+    }
+    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[0] === '-') {
+      return 0;
+    }
+
+    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[7] === '-') {
+      return 7;
+    }
+    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[4] === '-') {
+      return 4;
+    }
+    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[1] === '-') {
+      return 1;
+    }
+
+    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[8] === '-') {
+      return 8;
+    }
+    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[5] === '-') {
+      return 5;
+    }
+    if (gameboard.gameArray[5] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[2] === '-') {
+      return 2;
+    }
+
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[8] === '-') {
+      return 8;
+    }
+    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[4] === '-') {
+      return 4;
+    }
+    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[0] === '-') {
+      return 0;
+    }
+
+    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[6] === '-') {
+      return 6;
+    }
+    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[4] === '-') {
+      return 4;
+    }
+    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[2] === '-') {
+      return 2;
+    }
+
+    var index = pickRandomCell();
+    return index;
+  }
+
+  const pickRandomCell = function() {
+    var randomIndex = Math.floor((Math.random() * 9));
+    console.log(randomIndex);
+   if (gameboard.gameArray[randomIndex] !== '-') {
+      pickRandomCell();
+    } else {
+      return randomIndex;
+    }
+  }
+
   const pickCell = function(event) {
-    gameboard.gameArray[Number(event.target.id)] = this.choice;
+    if (document.getElementById('computer').checked === true && currentPlayer === player2) {
+      gameboard.gameArray[computerPickCell()] = 'O';
+    } else {
+      gameboard.gameArray[Number(event.target.id)] = this.choice;
+    }
+
     gameboard.writeToDOM();
+
     var gameIsOver = gameboard.determineWinner();
     if (gameIsOver === undefined) {
       if (currentPlayer === player1) {
         title.innerHTML = player2.name + "'s turn!";
         currentPlayer = player2;
+        if (document.getElementById('computer').checked === true && currentPlayer === player2) {
+          setTimeout(pickCell, 1000);
+        }
       } else {
         title.innerHTML = player1.name + "'s turn!";
         currentPlayer = player1;
       }
     } else {
-      title.innerHTML = currentPlayer.name + ' wins!';
-      var playAgainButton = document.createElement('button');
-      playAgainButton.innerHTML = 'Play Again!';
-      document.body.append(playAgainButton);
-      playAgainButton.addEventListener('click', function() { location.reload() });
+      gameboard.endRound(gameIsOver);
     }
-
   }
 
   return {name, choice, displayName, pickCell};
@@ -124,9 +253,16 @@ const Player = function(number) {
 var submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function(event) {
   event.preventDefault();
+
   player1.displayName();
   player2.displayName();
   gameboard.writeToDOM()
+});
+
+var addPlayer2 = document.getElementById('human');
+human.addEventListener('change', function() {
+  document.getElementById('player2-section').classList.add('hidden');
+  document.getElementById('player2-input').classList.remove('hidden');
 });
 
 const player1 = Player(1);
