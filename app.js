@@ -214,10 +214,10 @@ const Player = function(number) {
   const pickRandomCell = function() {
     var randomIndex = Math.floor((Math.random() * 9));
     console.log(randomIndex);
-   if (gameboard.gameArray[randomIndex] !== '-') {
-      pickRandomCell();
-    } else {
+   if (gameboard.gameArray[randomIndex] === '-') {
       return randomIndex;
+    } else {
+      return pickRandomCell();
     }
   }
 
