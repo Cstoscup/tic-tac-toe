@@ -3,7 +3,6 @@ const gameboard = (function() {
   var title = document.getElementById('title');
   const gameArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
   const writeToDOM = function() {
-    console.log(currentPlayer);
     var board = document.getElementById('gameboard');
 
     if (board === null) {
@@ -91,14 +90,16 @@ const Player = function(number) {
 
   const displayName = function() {
     this.name = getName();
-    document.getElementById('player' + number + '-input').innerHTML = this.name + ' is ' + choice;
+    var form = document.getElementById('player-input');
+    form.classList.remove('player-input');
+    form.classList.add('hidden');
+    title.innerHTML = player1.name + "'s turn!";
   }
 
   const pickCell = function(event) {
     gameboard.gameArray[Number(event.target.id)] = this.choice;
     gameboard.writeToDOM();
     var gameIsOver = gameboard.determineWinner();
-    console.log(gameIsOver);
     if (gameIsOver === undefined) {
       if (currentPlayer === player1) {
         title.innerHTML = player2.name + "'s turn!";
@@ -109,6 +110,10 @@ const Player = function(number) {
       }
     } else {
       title.innerHTML = currentPlayer.name + ' wins!';
+      var playAgainButton = document.createElement('button');
+      playAgainButton.innerHTML = 'Play Again!';
+      document.body.append(playAgainButton);
+      playAgainButton.addEventListener('click', function() { location.reload() });
     }
 
   }
@@ -119,7 +124,6 @@ const Player = function(number) {
 var submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', function(event) {
   event.preventDefault();
-
   player1.displayName();
   player2.displayName();
   gameboard.writeToDOM()
