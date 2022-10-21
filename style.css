@@ -106,3 +106,9 @@ h3 {
   margin: 20px 0;
 }
 
+.score-box {
+  color: #6d597a;
+  font-size: 28px;
+  margin: 0 auto 20px;
+  width: fit-content;
+}
