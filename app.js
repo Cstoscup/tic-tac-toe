@@ -80,9 +80,14 @@ const gameboard = (function() {
 
   const endRound = function(tie) {
     if (tie === true) {
-      console.log('tie')
+      ties++;
+      document.getElementById('tie-score').innerHTML = 'Ties: ' + ties;
       title.innerHTML = "It's a tie!";
     } else {
+      console.log('player' + currentPlayer.number + '-score')
+      var score = document.getElementById('player' + currentPlayer.number + '-score');
+      score.innerHTML = currentPlayer.name + ': ' + currentPlayer.increaseScore();
+
       title.innerHTML = currentPlayer.name + ' wins!';
     }
 
@@ -90,7 +95,17 @@ const gameboard = (function() {
     playAgainButton.classList.add('play-again');
     playAgainButton.innerHTML = 'Play Again!';
     document.body.append(playAgainButton);
-    playAgainButton.addEventListener('click', function() { location.reload() });
+    playAgainButton.addEventListener('click', function() {
+      for (var i = 0; i < gameArray.length; i++) {
+        gameArray[i] = '-';
+      }
+      player1.displayName();
+      player2.displayName();
+      playAgainButton.classList.add('hidden');
+      currentPlayer = player1;
+
+      writeToDOM();
+    });
   }
 
   return {gameArray, writeToDOM, determineWinner, endRound};
@@ -104,6 +119,12 @@ const Player = function(number) {
     choice = 'X';
   } else {
     choice = 'O';
+  }
+  var score = 0;
+
+  const increaseScore = function() {
+    this.score++;
+    return this.score;
   }
 
   const getName = function() {
@@ -247,7 +268,7 @@ const Player = function(number) {
     }
   }
 
-  return {name, choice, displayName, pickCell};
+  return {name, choice, score, number, displayName, pickCell, increaseScore};
 };
 
 var submitButton = document.getElementById('submit');
@@ -268,3 +289,4 @@ human.addEventListener('change', function() {
 const player1 = Player(1);
 const player2 = Player(2);
 var currentPlayer = player1;
+var ties = 0;
