@@ -148,84 +148,30 @@ const Player = function(number) {
   }
 
   const computerPickCell = function() {
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[1] === 'X' && gameboard.gameArray[2] === '-') {
-      return 2;
-    }
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[2] === 'X' && gameboard.gameArray[1] === '-') {
-      return 1;
-    }
-    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[2] === 'X' && gameboard.gameArray[0] === '-') {
-      return 0;
-    }
+    var row1 = [0, 1, 2];
+    var row2 = [3, 4, 5];
+    var row3 = [6, 7, 8];
+    var col1 = [0, 3, 6];
+    var col2 = [1, 4, 7];
+    var col3 = [2, 5, 8];
+    var diag1 = [0, 4, 8];
+    var diag2 = [2, 4, 6];
+    var cellArray = [row1, row2, row3, col1, col2, col3, diag1, diag2];
 
-    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[5] === '-') {
-      return 5;
-    }
-    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[3] === '-') {
-      return 3;
-    }
-    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[4] === '-') {
-      return 4;
-    }
 
-    if (gameboard.gameArray[6] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[8] === '-') {
-      return 8;
-    }
-    if (gameboard.gameArray[6] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[7] === '-') {
-      return 7;
-    }
-    if (gameboard.gameArray[7] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[6] === '-') {
-      return 6;
-    }
-
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[3] === 'X' && gameboard.gameArray[6] === '-') {
-      return 6;
-    }
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[3] === '-') {
-      return 3;
-    }
-    if (gameboard.gameArray[3] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[0] === '-') {
-      return 0;
-    }
-
-    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[7] === '-') {
-      return 7;
-    }
-    if (gameboard.gameArray[1] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[4] === '-') {
-      return 4;
-    }
-    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[7] === 'X' && gameboard.gameArray[1] === '-') {
-      return 1;
-    }
-
-    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[5] === 'X' && gameboard.gameArray[8] === '-') {
-      return 8;
-    }
-    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[5] === '-') {
-      return 5;
-    }
-    if (gameboard.gameArray[5] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[2] === '-') {
-      return 2;
-    }
-
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[8] === '-') {
-      return 8;
-    }
-    if (gameboard.gameArray[0] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[4] === '-') {
-      return 4;
-    }
-    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[8] === 'X' && gameboard.gameArray[0] === '-') {
-      return 0;
-    }
-
-    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[4] === 'X' && gameboard.gameArray[6] === '-') {
-      return 6;
-    }
-    if (gameboard.gameArray[2] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[4] === '-') {
-      return 4;
-    }
-    if (gameboard.gameArray[4] === 'X' && gameboard.gameArray[6] === 'X' && gameboard.gameArray[2] === '-') {
-      return 2;
+    for (var i = 0; i < cellArray.length; i++) {
+      if (gameboard.gameArray[cellArray[i][0]] === 'X' && gameboard.gameArray[cellArray[i][1]] === 'X' && gameboard.gameArray[cellArray[i][2]] === '-') {
+        console.log(cellArray[i][2]);
+        return cellArray[i][2];
+      }
+      if (gameboard.gameArray[cellArray[i][0]] === 'X' && gameboard.gameArray[cellArray[i][2]] === 'X' && gameboard.gameArray[cellArray[i][1]] === '-') {
+        console.log(cellArray[i][1]);
+        return cellArray[i][1];
+      }
+      if (gameboard.gameArray[cellArray[i][1]] === 'X' && gameboard.gameArray[cellArray[i][2]] === 'X' && gameboard.gameArray[cellArray[i][0]] === '-') {
+        console.log(cellArray[i][0]);
+        return cellArray[i][0];
+      }
     }
 
     var index = pickRandomCell();
@@ -234,8 +180,7 @@ const Player = function(number) {
 
   const pickRandomCell = function() {
     var randomIndex = Math.floor((Math.random() * 9));
-    console.log(randomIndex);
-   if (gameboard.gameArray[randomIndex] === '-') {
+    if (gameboard.gameArray[randomIndex] === '-') {
       return randomIndex;
     } else {
       return pickRandomCell();
